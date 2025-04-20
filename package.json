@@ -8,8 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build:places": "vite build --outDir dist/places --base=/places/ --input=src/pages/places/index.html",
-    "deploy:places": "yarn build:places && gh-pages -d dist/places -b gh-pages"
+    "deploy": "node scripts/deploy.js"
   },
   "dependencies": {
     "react": "^19.0.0",
