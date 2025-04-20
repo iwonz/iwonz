@@ -44,6 +44,6 @@ export const VISITED_REGIONS: Record<string, boolean> = {
   DE: true,
   PL: true,
   BY: true,
-  'BY-HM': true,
-  'BY-MI': true,
+  'BY-HM': true, // Минск
+  'BY-MI': true, // Минская область
 };
