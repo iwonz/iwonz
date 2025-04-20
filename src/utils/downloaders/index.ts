@@ -1,9 +1,9 @@
-import { downloadCountriesJson } from "./downloadCountriesJson.ts";
-import { downloadRegionsJson } from "./downloadRegionsJson.ts";
-import { downloadVisited } from "./downloadVisited.ts";
+import { downloadCountriesJson } from './downloadCountriesJson';
+import { downloadRegionsJson } from './downloadRegionsJson';
+import { downloadVisited } from './downloadVisited';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
+// @ts-ignore
 window.downloadAllJsons = async () => {
   await downloadCountriesJson();
   await downloadRegionsJson();

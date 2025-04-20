@@ -4,9 +4,9 @@ import path from 'path';
 
 const pagesDir = path.resolve('src/pages');
 const distDir = path.resolve('dist');
-const pages = fs.readdirSync(pagesDir).filter((name) =>
-  fs.existsSync(path.join(pagesDir, name, 'index.html'))
-);
+const pages = fs
+  .readdirSync(pagesDir)
+  .filter((name) => fs.existsSync(path.join(pagesDir, name, 'index.html')));
 
 // Чистим dist
 fs.rmSync(distDir, { recursive: true, force: true });

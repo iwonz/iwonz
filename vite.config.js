@@ -12,7 +12,8 @@ export default defineConfig(() => {
   }
 
   const pagePath = page ? `src/pages/${page}/index.html` : undefined;
-  const inputPath = pagePath && fs.existsSync(pagePath) ? path.resolve(__dirname, pagePath) : undefined;
+  const inputPath =
+    pagePath && fs.existsSync(pagePath) ? path.resolve(__dirname, pagePath) : undefined;
 
   return {
     plugins: [react()],

@@ -1,4 +1,4 @@
-import type { Location } from "../types.ts";
+import type { Location } from '../types';
 
 export const getBalloonContent = (location: Location) => {
   if (location.actions) {
@@ -6,7 +6,7 @@ export const getBalloonContent = (location: Location) => {
       .map((link) => {
         return `<li><a href="${link.url}" target="_blank">${link.name}</a></li>`;
       })
-      .join("");
+      .join('');
 
     return `События в этом месте:<br /><ul>${actions}</ul>`;
   }

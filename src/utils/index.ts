@@ -1,1 +1,1 @@
-export { download } from "./download.ts";
+export { download } from './download';

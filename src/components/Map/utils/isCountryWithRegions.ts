@@ -1,4 +1,3 @@
-import { REGIONS } from "./index.ts";
+import { REGIONS } from './index';
 
-export const isCountryWithRegions = (countryIsoKey: string) =>
-  REGIONS.includes(countryIsoKey);
+export const isCountryWithRegions = (countryIsoKey: string) => REGIONS.includes(countryIsoKey);
