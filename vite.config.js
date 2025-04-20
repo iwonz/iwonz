@@ -3,12 +3,12 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
 
-const page = process.env.BUILD_PAGE || process.env.DEV_PAGE;
+const page = process.env.BUILD_PAGE;
 const isDev = process.env.NODE_ENV === 'development';
 
 export default defineConfig(() => {
   if (!page && !isDev) {
-    throw new Error('❌ BUILD_PAGE (или DEV_PAGE) не задан для сборки!');
+    throw new Error('❌ BUILD_PAGE не задан для сборки!');
   }
 
   const pagePath = page ? `src/pages/${page}/index.html` : undefined;
@@ -16,7 +16,7 @@ export default defineConfig(() => {
 
   return {
     plugins: [react()],
-    root: `src/pages/${page}`,
+    root: isDev ? null : `src/pages/${page}`,
     base: page ? `/iwonz/${page}/` : '/',
     build: {
       outDir: page ? path.resolve(__dirname, `dist/${page}`) : 'dist',

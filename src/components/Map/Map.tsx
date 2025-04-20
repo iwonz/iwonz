@@ -15,6 +15,9 @@ import {
 import { LocationType } from "./types.ts";
 import { VISITED_LOCATIONS } from "./VISITED_LOCATIONS.ts";
 
+import countries from './countries.json';
+import regions from './regions.json';
+
 let map: any = null;
 
 async function initializeMap() {
@@ -86,111 +89,102 @@ async function initializeMap() {
   map.geoObjects.add(placesGeoObjectCollection);
   // End of render locations
 
-  Promise.all([
-    fetch('/countries.json'),
-    fetch('/regions.json'),
-  ])
-    .then(([countries, regions]) =>
-      Promise.all([countries.json(), regions.json()]),
-    )
-    .then(([countries, regions]) => {
-      // Render countries
-      const countriesGeoObjectCollection = new ymaps.GeoObjectCollection();
-      const countriesGeoObjects: Record<string, typeof ymaps.GeoObject> = {};
-      Object.keys(countries).forEach((countryIsoKey) => {
-        const country = countries[countryIsoKey];
-        const isWithRegions = isCountryWithRegions(countryIsoKey);
+  // Render countries
+  const countriesGeoObjectCollection = new ymaps.GeoObjectCollection();
+  const countriesGeoObjects: Record<string, typeof ymaps.GeoObject> = {};
+  Object.keys(countries).forEach((countryIsoKey) => {
+    const country = countries[countryIsoKey];
+    const isWithRegions = isCountryWithRegions(countryIsoKey);
 
-        country.properties.hintContent = isWithRegions
-          ? null
-          : country.properties.name;
+    country.properties.hintContent = isWithRegions
+      ? null
+      : country.properties.name;
 
-        const countryGeoObject = new ymaps.GeoObject(country, {
-          fillOpacity: isWithRegions ? 0 : 0.5,
-          fillColor: isVisitedRegionOrCountry(countryIsoKey)
-            ? "#80ff80"
-            : "#e2e2e2",
-          strokeWidth: 0,
-          strokeColor: "#db757f",
-          strokeOpacity: isWithRegions ? 0.5 : 1,
-        });
-
-        if (!isWithRegions) {
-          countryGeoObject.events.add("mouseenter", () => {
-            countryGeoObject.options.set("strokeWidth", 1);
-          });
-
-          countryGeoObject.events.add("mouseleave", () => {
-            countryGeoObject.options.set("strokeWidth", 0);
-          });
-        }
-
-        countriesGeoObjects[countryIsoKey] = countryGeoObject;
-
-        countriesGeoObjectCollection.add(countryGeoObject);
-      });
-      map.geoObjects.add(countriesGeoObjectCollection);
-      // End of render countries
-
-      // Render regions
-      const regionsGeoObjectCollection = new ymaps.GeoObjectCollection();
-      const regionsGeoObjects: Record<string, typeof ymaps.GeoObject> = {};
-      Object.keys(regions).forEach((regionIsoCode) => {
-        const region = regions[regionIsoCode];
-        const countryIsoCode = isDisputedRussiaRegion(regionIsoCode)
-          ? "RU"
-          : regionIsoCode.split("-")[0];
-
-        region.properties.hintContent = `${countries[countryIsoCode].properties.name}, ${region.properties.name}`;
-
-        const regionGeoObject = new ymaps.GeoObject(region, {
-          fillOpacity: 0.5,
-          fillColor: isVisitedRegionOrCountry(regionIsoCode)
-            ? "#80ff80"
-            : "#e2e2e2",
-          strokeWidth: 0,
-          strokeColor: "#db757f",
-        });
-
-        regionsGeoObjects[regionIsoCode] = regionGeoObject;
-
-        regionGeoObject.events.add("mouseenter", () => {
-          Object.keys(regions).forEach((regionIsoCode) => {
-            const isDisputedRegion = isDisputedRussiaRegion(regionIsoCode);
-
-            const isHighlighted =
-              (isDisputedRegion && countryIsoCode === "RU") ||
-              (regionIsoCode.startsWith(countryIsoCode) && !isDisputedRegion);
-
-            if (isHighlighted) {
-              regionsGeoObjects[regionIsoCode].options.set("strokeWidth", 0.3);
-            }
-          });
-
-          regionGeoObject.options.set("strokeWidth", 1);
-        });
-
-        regionGeoObject.events.add("mouseleave", () => {
-          Object.keys(regions).forEach((regionIsoCode) => {
-            const isDisputedRegion = isDisputedRussiaRegion(regionIsoCode);
-
-            const isHighlighted =
-              (isDisputedRegion && countryIsoCode === "RU") ||
-              (regionIsoCode.startsWith(countryIsoCode) && !isDisputedRegion);
-
-            if (isHighlighted) {
-              regionsGeoObjects[regionIsoCode].options.set("strokeWidth", 0);
-            }
-          });
-
-          regionGeoObject.options.set("strokeWidth", 0);
-        });
-
-        regionsGeoObjectCollection.add(regionGeoObject);
-      });
-      map.geoObjects.add(regionsGeoObjectCollection);
-      // End of render regions
+    const countryGeoObject = new ymaps.GeoObject(country, {
+      fillOpacity: isWithRegions ? 0 : 0.5,
+      fillColor: isVisitedRegionOrCountry(countryIsoKey)
+        ? "#80ff80"
+        : "#e2e2e2",
+      strokeWidth: 0,
+      strokeColor: "#db757f",
+      strokeOpacity: isWithRegions ? 0.5 : 1,
     });
+
+    if (!isWithRegions) {
+      countryGeoObject.events.add("mouseenter", () => {
+        countryGeoObject.options.set("strokeWidth", 1);
+      });
+
+      countryGeoObject.events.add("mouseleave", () => {
+        countryGeoObject.options.set("strokeWidth", 0);
+      });
+    }
+
+    countriesGeoObjects[countryIsoKey] = countryGeoObject;
+
+    countriesGeoObjectCollection.add(countryGeoObject);
+  });
+  map.geoObjects.add(countriesGeoObjectCollection);
+  // End of render countries
+
+  // Render regions
+  const regionsGeoObjectCollection = new ymaps.GeoObjectCollection();
+  const regionsGeoObjects: Record<string, typeof ymaps.GeoObject> = {};
+  Object.keys(regions).forEach((regionIsoCode) => {
+    const region = regions[regionIsoCode];
+    const countryIsoCode = isDisputedRussiaRegion(regionIsoCode)
+      ? "RU"
+      : regionIsoCode.split("-")[0];
+
+    region.properties.hintContent = `${countries[countryIsoCode].properties.name}, ${region.properties.name}`;
+
+    const regionGeoObject = new ymaps.GeoObject(region, {
+      fillOpacity: 0.5,
+      fillColor: isVisitedRegionOrCountry(regionIsoCode)
+        ? "#80ff80"
+        : "#e2e2e2",
+      strokeWidth: 0,
+      strokeColor: "#db757f",
+    });
+
+    regionsGeoObjects[regionIsoCode] = regionGeoObject;
+
+    regionGeoObject.events.add("mouseenter", () => {
+      Object.keys(regions).forEach((regionIsoCode) => {
+        const isDisputedRegion = isDisputedRussiaRegion(regionIsoCode);
+
+        const isHighlighted =
+          (isDisputedRegion && countryIsoCode === "RU") ||
+          (regionIsoCode.startsWith(countryIsoCode) && !isDisputedRegion);
+
+        if (isHighlighted) {
+          regionsGeoObjects[regionIsoCode].options.set("strokeWidth", 0.3);
+        }
+      });
+
+      regionGeoObject.options.set("strokeWidth", 1);
+    });
+
+    regionGeoObject.events.add("mouseleave", () => {
+      Object.keys(regions).forEach((regionIsoCode) => {
+        const isDisputedRegion = isDisputedRussiaRegion(regionIsoCode);
+
+        const isHighlighted =
+          (isDisputedRegion && countryIsoCode === "RU") ||
+          (regionIsoCode.startsWith(countryIsoCode) && !isDisputedRegion);
+
+        if (isHighlighted) {
+          regionsGeoObjects[regionIsoCode].options.set("strokeWidth", 0);
+        }
+      });
+
+      regionGeoObject.options.set("strokeWidth", 0);
+    });
+
+    regionsGeoObjectCollection.add(regionGeoObject);
+  });
+  map.geoObjects.add(regionsGeoObjectCollection);
+  // End of render regions
 }
 
 export interface MapProps {
