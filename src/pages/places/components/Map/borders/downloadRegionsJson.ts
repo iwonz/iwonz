@@ -1,11 +1,11 @@
-import { download } from '../index';
-import { REGIONS } from '../../components/Map/utils';
+import { PLACES_CONFIG } from '@/pages/places/config';
+import { download } from '@/utils';
 
 export const downloadRegionsJson = async () => {
   let regions = await Promise.all(
-    REGIONS.map((region) => {
+    PLACES_CONFIG.countriesWithRegions.map((region) => {
       return ymaps.borders.load(region, {
-        lang: 'ru',
+        lang: PLACES_CONFIG.lang,
         quality: 3,
       });
     })

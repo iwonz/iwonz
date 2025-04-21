@@ -1,8 +1,9 @@
-import { download } from '../index';
+import { PLACES_CONFIG } from '@/pages/places/config';
+import { download } from '@/utils';
 
 export const downloadCountriesJson = async () => {
   let countries = await ymaps.borders.load('001', {
-    lang: 'ru',
+    lang: PLACES_CONFIG.lang,
     quality: 3,
   });
 

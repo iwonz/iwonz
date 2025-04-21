@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import fs from 'fs';
 
+const GITHUB_REPO_NAME = 'iwonz';
+
 const page = process.env.BUILD_PAGE;
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -18,7 +20,7 @@ export default defineConfig(() => {
   return {
     plugins: [react()],
     root: isDev ? null : `src/pages/${page}`,
-    base: page ? `/iwonz/${page}/` : '/',
+    base: page ? `/${GITHUB_REPO_NAME}/${page}/` : '/',
     build: {
       outDir: page ? path.resolve(__dirname, `dist/${page}`) : 'dist',
       rollupOptions: inputPath ? { input: inputPath } : {},
@@ -29,6 +31,11 @@ export default defineConfig(() => {
       // fs: {
       //   allow: [path.resolve(__dirname)],
       // },
+    },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
     },
   };
 });

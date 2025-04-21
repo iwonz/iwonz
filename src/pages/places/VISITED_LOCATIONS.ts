@@ -1,4 +1,4 @@
-import { Location, LocationType } from './types';
+import { Location, LocationType } from './components/Map/types';
 
 export const VISITED_LOCATIONS: Location[] = [
   {

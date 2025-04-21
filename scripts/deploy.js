@@ -2,6 +2,9 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
+const GITHUB_LOGIN = 'iwonz';
+const GITHUB_REPO_NAME = 'iwonz';
+
 const pagesDir = path.resolve('src/pages');
 const distDir = path.resolve('dist');
 const pages = fs
@@ -40,5 +43,5 @@ execSync(`npx gh-pages -d dist -b gh-pages`, { stdio: 'inherit' });
 
 console.log('\n✅ Done! Your pages are available:');
 pages.forEach((page) => {
-  console.log(`🔗 https://iwonz.github.io/iwonz/${page}/`);
+  console.log(`🔗 https://${GITHUB_LOGIN}.github.io/${GITHUB_REPO_NAME}/${page}/`);
 });

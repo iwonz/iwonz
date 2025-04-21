@@ -13,3 +13,9 @@ export interface Location {
     url: string;
   }>;
 }
+
+export interface LocationIcon {
+  icon: string;
+  size: [number, number];
+  offset: [number, number];
+}

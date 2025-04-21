@@ -1,12 +1,30 @@
-# React + Vite
+# Create your own version
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. Clone this repo
+2. Change `GITHUB_LOGIN` and `GITHUB_REPO_NAME` in `scripts/deploy.js`
+3. Change `GITHUB_REPO_NAME` in `vite.config.js`
 
-Currently, two official plugins are available:
+# Places
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+For configure check `src/pages/places/config.tsx`.
 
-## Expanding the ESLint configuration
+## Updating visited places
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Fill `src/pages/places/VISITED_REGIONS.ts` and `src/pages/places/VISITED_LOCATIONS.ts`
+
+## Updatind borders
+
+1. `yarn dev`
+2. Open `http://localhost:5173/src/pages/places/index.html` in browser
+3. Open Console
+4. Call `downloadAllJsons()` in Console
+5. Move downloaded `countries.json` and `regions.json` to `src/pages/places/components/Map/borders`
+
+## Dev
+
+1. `yarn dev`
+2. Open `http://localhost:5173/src/pages/places/index.html` in browser
+
+## Deploy
+
+1. `yarn deploy`
